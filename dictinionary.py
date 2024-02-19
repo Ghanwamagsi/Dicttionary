@@ -159,3 +159,98 @@ conversion_factors = {"Celsius to Fahrenheit": lambda c: c * 9/5 + 32,
 celsius_temp = 30
 fahrenheit_temp = conversion_factors["Celsius to Fahrenheit"](celsius_temp)
 print(f"{celsius_temp} degrees Celsius is equal to {fahrenheit_temp} degrees Fahrenheit.")
+
+
+
+menu = {}
+
+def read_menu(file_path):
+    with open(file_path, 'r') as file:
+        for line in file:
+            item, price, category = line.strip().split(',')
+            menu[item] = {'price': float(price), 'category': category}
+
+def browse_menu(category=None):
+    print("Menu:")
+    for item, details in menu.items():
+        if category is None or details['category'] == category:
+            print(f"{item}: ${details['price']} ({details['category']})")
+
+file_path = input("Enter path to menu file: ")
+read_menu(file_path)
+
+while True:
+    print("\nOptions:")
+    print("1. Browse menu")
+    print("2. Search for item")
+    print("3. Quit")
+    choice = int(input("Enter your choice: "))
+
+    if choice == 1:
+        category = input("Enter category to browse (leave blank to browse all): ")
+        browse_menu(category)
+    elif choice == 2:
+        item = input("Enter item to search for: ")
+        if item in menu:
+            print(f"{item}: ${menu[item]['price']} ({menu[item]['category']})")
+        else:
+            print("Item not found in the menu.")
+    elif choice == 3:
+        break
+    else:
+        print("Invalid choice. Please try again.")
+
+
+
+        
+expenses = {}
+
+def add_expense(category, amount):
+    if category in expenses:
+        expenses[category] += amount
+    else:
+        expenses[category] = amount
+
+def display_expenses():
+    print("Travel Expenses:")
+    for category, amount in expenses.items():
+        print(f"{category}: ${amount:.2f}")
+
+while True:
+    print("\nOptions:")
+    print("1. Add an expense")
+    print("2. Display expenses")
+    print("3. Quit")
+    choice = input("Enter your choice: ")
+
+    if choice == '1':
+        category = input("Enter expense category: ")
+        amount = float(input("Enter expense amount: "))
+        add_expense(category, amount)
+        print("Expense added successfully.")
+    elif choice == '1':
+        display_expenses()
+    elif choice == '2':
+        break
+    else:
+        print("Invalid choice. Please try again.")
+
+
+import random
+import string
+
+password_constraints = {'length': 8, 'uppercase': True, 'lowercase': True, 'numbers': True, 'symbols': False}
+
+def generate_password(constraints):
+    characters = ''
+    if constraints['uppercase']:
+        characters += string.ascii_uppercase
+    if constraints['lowercase']:
+        characters += string.ascii_lowercase
+    if constraints['numbers']:
+        characters += string.digits
+    if constraints['symbols']:
+        characters += string.punctuation
+    return ''.join(random.choice(characters) for _ in range(constraints['length']))
+
+print("Generated password:", generate_password(password_constraints))
